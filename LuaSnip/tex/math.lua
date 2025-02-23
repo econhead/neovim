@@ -58,7 +58,8 @@ return {
     fmta("\\hat{<>}<>", {
       i(1),
       i(0),
-    }, { condition = in_mathzone })
+    }),
+    { condition = in_mathzone }
   ),
 
   s({
@@ -79,7 +80,8 @@ return {
     fmta("\\bar{<>}<>", {
       i(1),
       i(0),
-    }, { condition = in_mathzone })
+    }),
+    { condition = in_mathzone }
   ),
 
   s({
@@ -100,7 +102,8 @@ return {
     fmta("\\overline{<>}<>", {
       i(1),
       i(0),
-    }, { condition = in_mathzone })
+    }),
+    { condition = in_mathzone }
   ),
 
   s({
@@ -131,10 +134,10 @@ return {
 
   -----------------Autosubscript-----------------------------------------------
   s({
-    trig = "([A-Za-z]+)(%d+)", -- Match letters followed by digits
+    trig = "([%a%)%]%}])(%d+)", -- Match letters followed by digits
     regTrig = true, -- Enables regex matching
     wordTrig = false, -- Allows it to trigger inside words
-    --snippetType = "autosnippet", -- Autoexpansion restricts subscipt to only one digit
+    snippetType = "autosnippet", -- Autoexpansion restricts subscipt to only one digit
   }, {
     f(function(_, snip)
       return snip.captures[1] .. "_{" .. snip.captures[2] .. "}"
@@ -156,10 +159,14 @@ return {
   }),
 
   s(
-    { trig = "sub", snippetType = "autosnippet", wordTrig = false },
-    fmta("_{<>}", { i(1) }),
+    { trig = "_", snippetType = "autosnippet", wordTrig = false },
+    fmta("_{<>} <>", { i(1), i(0) }),
     { condition = in_mathzone }
   ),
+
+  s({ trig = "sr", snippetType = "autosnippet" }, fmta("^2", {}), { condition = in_mathzone }),
+
+  s({ trig = "cb", snippetType = "autosnippet" }, fmta("^3", {}), { condition = in_mathzone }),
 
   ----------------Autosuperscript-------------------------------------------------
   s({
@@ -176,7 +183,7 @@ return {
 
   s(
     { trig = "rd", snippetType = "autosnippet", wordTrig = false },
-    fmta("^{<>}", { i(1) }),
+    fmta("^{<>} <>", { i(1), i(0) }),
     { condition = in_mathzone }
   ),
 
@@ -214,15 +221,25 @@ return {
 
   ----------------------------------------------------------------------------
   s({ trig = "...", snippetType = "autosnippet" }, { t("\\ldots") }, { condition = in_mathzone }),
-  s({ trig = ",.,", snippetType = "autosnippet" }, { t("\\cdot") }, { condition = in_mathzone }),
-  s({ trig = "xx", snippetType = "autosnippet", priority = 1000 }, { t("\\times") }, { condition = in_mathzone }),
-  s(
-    { trig = "text", snippetType = "autosnippet" },
-    fmta("\\text{ <> } <>", { i(1), i(0) }),
-    { condition = in_mathzone }
-  ),
 
-  -------------------Logic and set theroy----------------------------------
+  s({ trig = ",,,", snippetType = "autosnippet" }, { t("\\cdots") }, { condition = in_mathzone }),
+
+  s({ trig = "**", snippetType = "autosnippet" }, { t("\\cdot") }, { condition = in_mathzone }),
+
+  s({ trig = "xx", snippetType = "autosnippet", priority = 1000 }, { t("\\times") }, { condition = in_mathzone }),
+
+  -------------------Logic, Set Theroy and other common Operators----------------------------------
+  s({ trig = "~", snippetType = "autosnippet" }, { t("\\sim") }, { condition = in_mathzone }),
+
+  s({ trig = ".~", snippetType = "autosnippet" }, { t("\\mathrel{\\dot\\sim}") }, { condition = in_mathzone }),
+
+  s({ trig = ">>", snippetType = "autosnippet" }, { t("\\gg") }, { condition = in_mathzone }),
+
+  s({ trig = "<<", snippetType = "autosnippet" }, { t("\\ll") }, { condition = in_mathzone }),
+
+  s({ trig = "set", snippetType = "autosnippet" }, fmta("\\{<>\\} <>", { i(1), i(0) }), { condition = in_mathzone }),
+
+  s({ trig = "\\\\\\", snippetType = "autosnippet" }, { t("\\setminus") }, { condition = in_mathzone }),
 
   s({ trig = "fll", snippetType = "autosnippet" }, { t("\\forall") }, { condition = in_mathzone }),
 
@@ -230,17 +247,21 @@ return {
 
   s({ trig = "next", snippetType = "autosnippet" }, { t("\\nexists") }, { condition = in_mathzone }),
 
-  s({ trig = "in", snippetType = "autosnippet" }, { t("\\in") }, { condition = in_mathzone }),
+  s({ trig = "inn", snippetType = "autosnippet" }, { t("\\in") }, { condition = in_mathzone }),
 
-  s({ trig = "noin", snippetType = "autosnippet" }, { t("\\notin") }, { condition = in_mathzone }),
+  s({ trig = "notin", snippetType = "autosnippet" }, { t("\\notin") }, { condition = in_mathzone }),
 
-  s({ trig = "comp", snippetType = "autosnippet" }, { t("\\complement") }, { condition = in_mathzone }),
+  s({ trig = "comp", snippetType = "autosnippet", wordTrig = false }, { t("^{c}") }, { condition = in_mathzone }),
+
+  s({ trig = "invs", snippetType = "autosnippet", wordTrig = false }, { t("^{-1}") }, { condition = in_mathzone }),
 
   s({ trig = "subs", snippetType = "autosnippet" }, { t("\\subset") }, { condition = in_mathzone }),
 
+  s({ trig = "subeq", snippetType = "autosnippet" }, { t("\\subseteq") }, { condition = in_mathzone }),
+
   s({ trig = "sups", snippetType = "autosnippet" }, { t("\\supset") }, { condition = in_mathzone }),
 
-  s({ trig = "mid", snippetType = "autosnippet" }, { t("\\mid") }, { condition = in_mathzone }),
+  s({ trig = "||", snippetType = "autosnippet" }, { t("\\mid") }, { condition = in_mathzone }),
 
   s({ trig = "land", snippetType = "autosnippet" }, { t("\\land") }, { condition = in_mathzone }),
 
@@ -276,34 +297,67 @@ return {
 
   s({ trig = "neg", snippetType = "autosnippet" }, { t("\\neg") }, { condition = in_mathzone }),
 
+  s({ trig = "uu", snippetType = "autosnippet" }, { t("\\cup") }, { condition = in_mathzone }),
+
+  s({ trig = "Nn", snippetType = "autosnippet" }, { t("\\cap") }, { condition = in_mathzone }),
+
   -----------------------------------common math functions---------------
 
   s({ trig = "sin", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\sin") }),
+
   s({ trig = "cos", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\cos") }),
+
   s({ trig = "tan", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\tan") }),
+
   s({ trig = "asin", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\arcsin") }),
+
   s({ trig = "acos", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\arccos") }),
+
   s({ trig = "atan", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\arctan") }),
+
   s({ trig = "hsin", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\sinh") }),
+
   s({ trig = "hcos", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\cosh") }),
+
   s({ trig = "htan", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\tanh") }),
+
   s({ trig = "csc", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\csc") }),
+
   s({ trig = "sec", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\sec") }),
+
   s({ trig = "cot", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\cot") }),
+
   s({ trig = "log", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\log") }),
+
   s({ trig = "ln", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\ln") }),
+
   s({ trig = "exp", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\exp") }),
-  s({ trig = "lim", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\lim") }),
-  s({ trig = "max", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\max") }),
-  s({ trig = "min", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\min") }),
+
+  -- s({ trig = "lim", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\lim") }),
+
+  s({ trig = ";max", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\max") }),
+
+  s({ trig = ";min", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\min") }),
+
   s({ trig = "sup", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\sup") }),
+
   s({ trig = "inf", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\inf") }),
+
   s({ trig = "arg", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\arg") }),
+
   s({ trig = "det", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\det") }),
+
   s({ trig = "dim", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\dim") }),
+
   s({ trig = "gcd", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\gcd") }),
+
   s({ trig = "lcm", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\lcm") }),
+
   s({ trig = "mod", wordTrig = false, snippetType = "autosnippet", condition = in_mathzone }, { t("\\mod") }),
+
+  s({ trig = "geq", wordTrig = false, snippetType = "autosnippet" }, { t("\\geq") }, { condition = in_mathzone }),
+
+  s({ trig = "leq", wordTrig = false, snippetType = "autosnippet" }, { t("\\leq") }, { condition = in_mathzone }),
 
   -------------------------------------fractions---------------------------------
 
@@ -385,5 +439,350 @@ return {
     {
       condition = in_mathzone,
     }
+  ),
+
+  ------------------------------Functions------------------------------------------
+
+  s(
+    { trig = "bfunc", snippetType = "autosnippet" },
+    fmta(
+      [[\begin{align*}
+        <> : <> &\longrightarrow <> \\\\
+        <> &\longmapsto <>(<>) = <> 
+        \end{align*}<>
+      ]],
+      {
+        i(1),
+        i(2),
+        i(3),
+        i(4),
+        rep(1),
+        rep(4),
+        i(5),
+        i(0),
+      }
+    )
+  ),
+
+  s(
+    { trig = "cup", snippetType = "autosnippet" },
+    fmta("\\bigcup_{{<> \\in <> }} <>", {
+      i(1, "i"),
+      i(2, "I"),
+      i(0),
+    }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "cap", snippetType = "autosnippet" },
+    fmta("\\bigcap_{{<> \\in <> }} <>", {
+      i(1, "i"),
+      i(2, "I"),
+      i(0),
+    }),
+    { condition = in_mathzone }
+  ),
+
+  ------------------------------------Vectors-------------------------------------
+
+  s(
+    { trig = "cvec", dscr = "Column Vector", snippetType = "autosnippet" },
+    fmta(
+      [[
+\begin{pmatrix} <>_<> \\
+\vdots \\
+<>_<> \end{pmatrix}
+      ]],
+      {
+        i(1, "x"), -- First variable (e.g., x)
+        i(2, "1"), -- First subscript (default 1)
+        rep(1), -- Repeats the first variable
+        i(3, "n"), -- Last subscript (default n)
+      }
+    ),
+    { condition = in_mathzone } -- Ensures it works only in math mode
+  ),
+
+  s(
+    { trig = "rvec", dscr = "Row Vector", snippetType = "autosnippet" },
+    fmta(
+      [[
+\begin{pmatrix} <>_<> & \cdots & <>_<> \end{pmatrix}
+      ]],
+      {
+        i(1, "x"), -- First variable (default "x")
+        i(2, "1"), -- First subscript (default "1")
+        rep(1), -- Repeats the first variable
+        i(3, "n"), -- Last subscript (default "n")
+      }
+    ),
+    { condition = in_mathzone } -- Ensures it works only in math mode
+  ),
+
+  -------------------------------Integrals------------------------------------------
+
+  s(
+    { trig = "dint", dscr = "Definite Integral", snippetType = "autosnippet" },
+    fmta(
+      [[
+\int_{<>}^{<>} <> <>
+      ]],
+      {
+        i(1, "-\\infty"), -- Default lower limit (-∞)
+        i(2, "\\infty"), -- Default upper limit (∞)
+        d(3, get_visual), -- Visual selection support
+        i(0), -- Final placeholder
+      }
+    ),
+    { condition = in_mathzone } -- Expands only in math mode
+  ),
+
+  s({ trig = "1int", snippetType = "autosnippet", condition = in_mathzone }, t("\\int ")),
+
+  s({ trig = "2int", snippetType = "autosnippet", condition = in_mathzone }, t("\\iint ")),
+
+  s({ trig = "3int", snippetType = "autosnippet", condition = in_mathzone }, t("\\iiint ")),
+
+  s({ trig = "0int", snippetType = "autosnippet", condition = in_mathzone }, t("\\oint ")),
+
+  s(
+    { trig = "cint", snippetType = "autosnippet", condition = in_mathzone },
+    fmta("\\int_{<>}^{<>} <>", { i(1, "0"), i(2, "\\infty"), i(0) })
+  ),
+
+  s({ trig = "inti", snippetType = "autosnippet", condition = in_mathzone }, t("\\int_{-\\infty}^{\\infty} ")),
+
+  ------------------------------------Summation----------------------------------------------
+  s(
+    { trig = "sum", snippetType = "autosnippet" },
+    fmta("\\sum_{n=<>}^{<>} <>", { i(1, "1"), i(2, "\\infty"), i(3, "function") }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "2sum", snippetType = "autosnippet" },
+    fmta(
+      "\\sum_{i=<>}^{<>}\\sum_{j=<>}^{<>} <>",
+      { i(1, "1"), i(2, "\\infty"), i(3, "1"), i(4, "\\infty"), i(5, "function") }
+    ),
+    { condition = in_mathzone }
+  ),
+
+  -----------------------------------Limits----------------------------------------------------------
+  s(
+    { trig = "lim", snippetType = "autosnippet" },
+    fmta("\\lim_{<> \\to <>} <> ", { i(1, "n"), i(2, "\\infty"), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "limsup", snippetType = "autosnippet" },
+    fmta("\\limsup_{<> \\to <>} ", { i(1, "n"), i(2, "\\infty") }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "liminf", snippetType = "autosnippet" },
+    fmta("\\liminf_{<> \\to <>} ", { i(1, "n"), i(2, "\\infty") }),
+    { condition = in_mathzone }
+  ),
+
+  ------------------------------------Partial derivative--------------------------------------------------
+  s(
+    { trig = "part", snippetType = "autosnippet" },
+    fmta("\\frac{\\partial <>}{\\partial <>} <>", { i(1, "U"), i(2, "x"), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  ----------------------------------Infinity symbol-------------------------------------------
+  s({ trig = "oo", snippetType = "autosnippet" }, fmta("\\infty", {}), { condition = in_mathzone }),
+
+  -----------------------------------Roots------------------------------------------
+  s(
+    { trig = "sq", snippetType = "autosnippet" },
+    fmta("\\sqrt{<>} <>", { i(1, "x"), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "cb", snippetType = "autosnippet" },
+    fmta("\\cbrt{<>} <>", { i(1, "x"), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  -- Square root with visual selection
+  s(
+    { trig = "sq", snippetType = "autosnippet" },
+    fmta("\\sqrt{<>} <>", {
+      d(1, get_visual),
+      i(0),
+    }),
+    { condition = in_mathzone }
+  ),
+
+  ----------------------------------Product--------------------------------------------------
+  s(
+    { trig = "prod", snippetType = "autosnippet" },
+    fmta("\\prod_{<> = <>}^{<>} <>", {
+      i(1, "n"),
+      i(2, "1"),
+      i(3, "\\infty"),
+      d(4, get_visual),
+    }),
+    { condition = in_mathzone }
+  ),
+
+  -- Equals sign for alignment
+  s({ trig = "==", snippetType = "autosnippet", condition = in_mathzone }, fmta("&= <> \\\\", { i(1) })),
+
+  -- Ceil function
+  s(
+    { trig = "ceil", snippetType = "autosnippet", condition = in_mathzone },
+    fmta("\\left\\lceil <> \\right\\rceil <>", { i(1), i(0) })
+  ),
+
+  -- Floor function
+  s(
+    { trig = "floor", snippetType = "autosnippet", condition = in_mathzone },
+    fmta("\\left\\lfloor <> \\right\\rfloor <>", { i(1), i(0) })
+  ),
+
+  -- Parenthesis matrix
+  s(
+    { trig = "pmat", snippetType = "autosnippet", condition = in_mathzone },
+    fmta("\\begin{pmatrix} <> \\end{pmatrix} <>", { i(1), i(0) })
+  ),
+
+  -- Bracket matrix
+  s(
+    { trig = "bmat", snippetType = "autosnippet", condition = in_mathzone },
+    fmta("\\begin{bmatrix} <> \\end{bmatrix} <>", { i(1), i(0) })
+  ),
+
+  s({ trig = "qq", snippetType = "autosnippet", condition = in_mathzone }, { t("\\quad") }),
+
+  -------------------------------------Optimization Problems---------------------------------------------
+  s({ trig = "R+", snippetType = "autosnippet" }, { t("\\mathbb{R}_{+}") }, { condition = in_mathzone }),
+
+  s(
+    { trig = "RR", snippetType = "autosnippet" },
+    fmta("\\mathbb{R}^{<>}_{+} <>", { i(1), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  s(
+    { trig = "Rr", snippetType = "autosnippet" },
+    fmta("\\mathbb{R}^{<>} <>", { i(1), i(0) }),
+    { condition = in_mathzone }
+  ),
+
+  --------------------------Maximization Problem with 2 constraints------------------------
+  s(
+    { trig = "2maxp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \max_{(<>) <>} & \quad <> \\
+            s.t. & \quad <> \\
+                 & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4), i(5) }
+    )
+  ),
+
+  ------------------Minimization Problem with 2 constraints---------------------------------
+  s(
+    { trig = "2minp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \min_{(<>) <>} & \quad <> \\
+            s.t. & \quad <> \\
+                 & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4), i(5) }
+    )
+  ),
+
+  ------------------Maximization and Minimization Problems with one constraint-------------------------------
+  s(
+    { trig = "1maxp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \max_{(<>) <>} & \quad <> \\
+            s.t. & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4) }
+    )
+  ),
+
+  s(
+    { trig = "1minp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \min_{(<>) <>} & \quad <> \\
+            s.t. & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4) }
+    )
+  ),
+
+  ------------------Maximization and Minimization in R^n_+ with one constraint--------------------------------------
+  s(
+    { trig = "nmaxp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \max_{(<>,<>,\ldots,<>) \in \mathbb{R}^{n}_{+}}  & \quad <> \\
+            s.t. & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4), i(5) }
+    )
+  ),
+
+  s(
+    { trig = "nmixp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \min_{(<>,<>,\ldots,<>) \in \mathbb{R}^{n}_{+}}  & \quad <> \\
+            s.t. & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3), i(4), i(5) }
+    )
+  ),
+
+  -----------------Unconstrained Maximization Minimization Problems------------------------------
+  s(
+    { trig = "maxp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \max_{(<>) <>}  & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3) }
+    )
+  ),
+
+  s(
+    { trig = "minp", snippetType = "autosnippet" },
+    fmta(
+      [[
+        \begin{align*}
+            \min_{(<>) <>}  & \quad <>
+        \end{align*}
+        ]],
+      { i(1), i(2), i(3) }
+    )
   ),
 }

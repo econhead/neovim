@@ -125,7 +125,7 @@ return {
   ),
 
   s(
-    { trig = "cases", snippetType = "autosnippet" },
+    { trig = "case" },
     fmta(
       [[
       \begin{cases}
@@ -209,9 +209,8 @@ return {
     )
   ),
 
-  -----------------------Wrap text in LaTeX environments----------------------------
   s(
-    { trig = "aln", snippetType = "autosnippet" },
+    { trig = "align", dscr = "LaTeX Align environment" },
     fmta(
       [[
       \begin{align*}
@@ -223,7 +222,32 @@ return {
   ),
 
   s(
-    { trig = "eqn", snippetType = "autosnippet" },
+    { trig = "eqn" },
+    fmta(
+      [[
+      \begin{equation*}
+          <>
+      \end{equation*}
+      ]],
+      { d(1, get_visual) }
+    )
+  ),
+
+  -----------------------Wrap text in LaTeX environments----------------------------
+  s(
+    { trig = "align*" },
+    fmta(
+      [[
+      \begin{align*}
+          <>
+      \end{align*}
+    ]],
+      { d(1, get_visual) }
+    )
+  ),
+
+  s(
+    { trig = "eqn*" },
     fmta(
       [[
       \begin{equation*}
@@ -236,22 +260,25 @@ return {
 
   s(
     { trig = "tii", dscr = "Expands 'tii' into LaTeX's textit{} command." },
-    fmta("\\textit{<>}", {
+    fmta("\\textit{<>} <>", {
       d(1, get_visual),
+      i(0),
     })
   ),
 
   s(
     { trig = "tbb", dscr = "Expands 'tbb' into LaTeX's textbf{} command." },
-    fmta("\\textbf{<>}", {
+    fmta("\\textbf{<>} <>", {
       d(1, get_visual),
+      i(0),
     })
   ),
 
   s(
     { trig = "tuu", dscr = "Expands 'tuu' into LaTeX's underline{} command." },
-    fmta("\\underline{<>}", {
+    fmta("\\underline{<>} <>", {
       d(1, get_visual),
+      i(0),
     })
   ),
   s(
@@ -259,4 +286,36 @@ return {
     fmta([[\section{<>}]], { i(1) }),
     { condition = line_begin } -- set condition in the `opts` table
   ),
+
+  s(
+    { trig = "h2", dscr = "second-level section" },
+    fmta([[\subsection{<>}]], { i(1) }),
+    { condition = line_begin } -- set condition in the `opts` table
+  ),
+
+  s(
+    { trig = "h3", dscr = "third-level section" },
+    fmta([[\subsubsection{<>}]], { i(1) }),
+    { condition = line_begin } -- set condition in the `opts` table
+  ),
+
+  s(
+    { trig = "H1", dscr = "Top-level section unnumbered" },
+    fmta([[\section*{<>}]], { i(1) }),
+    { condition = line_begin } -- set condition in the `opts` table
+  ),
+
+  s(
+    { trig = "H2", dscr = "second-level section unnumbered" },
+    fmta([[\subsection*{<>}]], { i(1) }),
+    { condition = line_begin } -- set condition in the `opts` table
+  ),
+
+  s(
+    { trig = "H3", dscr = "third-level section unnumbered" },
+    fmta([[\subsubsection*{<>}]], { i(1) }),
+    { condition = line_begin } -- set condition in the `opts` table
+  ),
+
+  s({ trig = "tt", snippetType = "autosnippet" }, fmta("\\text{ <> } <>", { i(1), i(0) }), { condition = in_mathzone }),
 }

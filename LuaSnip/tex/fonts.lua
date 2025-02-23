@@ -281,9 +281,9 @@ return {
 
   -- s({ trig = "ss", snippetType = "autosnippet" }, { t("\\mathbb{S}") }, { condition = in_mathzone }),
 
-  s({ trig = "tt", snippetType = "autosnippet" }, { t("\\mathbb{T}") }, { condition = in_mathzone }),
+  --s({ trig = "tt", snippetType = "autosnippet" }, { t("\\mathbb{T}") }, { condition = in_mathzone }),
 
-  s({ trig = "uu", snippetType = "autosnippet" }, { t("\\mathbb{U}") }, { condition = in_mathzone }),
+  --s({ trig = "uu", snippetType = "autosnippet" }, { t("\\mathbb{U}") }, { condition = in_mathzone }),
 
   --s({ trig = "vv", snippetType = "autosnippet" }, { t("\\mathbb{V}") }, { condition = in_mathzone }),
 
@@ -335,7 +335,7 @@ return {
 
   s({ trig = "QQ", snippetType = "autosnippet" }, { t("\\mathcal{Q}") }, { condition = in_mathzone }),
 
-  s({ trig = "RR", snippetType = "autosnippet" }, { t("\\mathcal{R}") }, { condition = in_mathzone }),
+  s({ trig = "mRR", snippetType = "autosnippet" }, { t("\\mathcal{R}") }, { condition = in_mathzone }),
 
   s({ trig = "SS", snippetType = "autosnippet" }, { t("\\mathcal{S}") }, { condition = in_mathzone }),
 

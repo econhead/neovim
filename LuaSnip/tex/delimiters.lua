@@ -48,4 +48,58 @@ tex_utils.in_tikz = function() -- TikZ picture environment detection
   return tex_utils.in_env("tikzpicture")
 end
 
-return {}
+return {
+
+  -- lr( -> \left( \right)
+  s(
+    { trig = "lrp", snippetType = "autosnippet" },
+    fmta("\\left( <> \\right) <>", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+
+  -- lr| -> \left| \right|
+  s(
+    { trig = "lr|", snippetType = "autosnippet" },
+    fmta("\\left| <> \\right| <>", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+
+  -- lr{ -> \left\{ \right\}
+  s(
+    { trig = "lr{", snippetType = "autosnippet" },
+    fmta("\\left\\{ <> \\right\\} <>", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+
+  -- lrb -> \left\{ \right\}
+  s(
+    { trig = "lrb", snippetType = "autosnippet" },
+    fmta("\\left\\{ <> \\right\\} <>", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+
+  -- lr[ -> \left[ \right]
+  s(
+    { trig = "lr[", snippetType = "autosnippet" },
+    fmta("\\left[ <> \\right] <>", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+
+  s(
+    { trig = "lra", snippetType = "autosnippet" },
+    fmt("\\left< {} \\right> {}", {
+      d(1, get_visual),
+      i(0),
+    })
+  ),
+}
