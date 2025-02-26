@@ -56,7 +56,14 @@ return {
     fmta(
       [[
       \documentclass[12pt,a4paper]{article}
-
+      \usepackage{import}
+      \usepackage{pdfpages}
+      \usepackage{transparent}
+      \usepackage{xcolor}
+      \newcommand{\incfig}[2][1]{%
+      \def\svgwidth{#1\columnwidth}
+      \import{./figures/}{#2.pdf_tex}}
+      \pdfsuppresswarningpagegroup=1
       \usepackage[utf8]{inputenc}
       \usepackage[T1]{fontenc}
       \usepackage{parskip}
